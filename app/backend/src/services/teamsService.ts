@@ -8,7 +8,7 @@ export default class TeamsService {
 
   async getAllTeams(): Promise<Team[]> {
     const teams = await this.model.findAll();
-    console.log(teams);
+
     return teams;
   }
 
