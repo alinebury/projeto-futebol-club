@@ -1,42 +1,28 @@
 import { Model, STRING, INTEGER } from 'sequelize';
 import db from '.';
 
-class User extends Model {
+class Team extends Model {
   public id!: number;
-  public username!: string;
-  public role!: string;
-  public email!: string;
-  public password!: string;
+  public teamName!: string;
 }
 
-User.init({
+Team.init({
   id: {
     allowNull: false,
     autoIncrement: true,
     primaryKey: true,
     type: INTEGER,
   },
-  username: {
+  teamName: {
     allowNull: false,
     type: STRING,
-  },
-  role: {
-    allowNull: false,
-    type: STRING,
-  },
-  email: {
-    allowNull: false,
-    type: STRING,
-  },
-  password: {
-    allowNull: false,
-    type: STRING,
+    field: 'team_name',
   },
 }, {
   // ... Outras configs
   underscored: true,
   sequelize: db,
-  modelName: 'User',
+  modelName: 'Team',
   timestamps: false,
 });
 
@@ -51,4 +37,4 @@ User.init({
 // Example.hasMany(OtherModel, { foreignKey: 'campoC', as: 'campoEstrangeiroC' });
 // Example.hasMany(OtherModel, { foreignKey: 'campoD', as: 'campoEstrangeiroD' });
 
-export default User;
+export default Team;
