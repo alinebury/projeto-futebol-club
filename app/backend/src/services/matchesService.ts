@@ -75,10 +75,12 @@ export default class MatchesService {
     );
   }
 
-  async getMatchById(id: string): Promise<void> {
+  async getMatchById(id: string | number): Promise<Match> {
     const match = await this.modelMatch.findOne({ where: { id } });
 
     if (!match) throw new NotFoundError('Match not found');
+
+    return match;
   }
 
   async validateTeam(homeTeam: number, awayTeam: number): Promise<void> {
@@ -95,12 +97,11 @@ export default class MatchesService {
     if (team.length !== 2) throw new NotFoundError('There is no team with such id!');
   }
 
-  // async editMatch(body: any, id: any): Promise<any> {
-  //   const match = await this.modelMatch.update(
-  //     { body },
-  //     { where: { id } },
-  //   );
-
-  //   return match;
-  // }
+  async editMatch(body: NewMatch, id: string): Promise<void> {
+    const { homeTeamGoals, awayTeamGoals } = body;
+    await this.modelMatch.update(
+      { homeTeamGoals, awayTeamGoals },
+      { where: { id } },
+    );
+  }
 }
