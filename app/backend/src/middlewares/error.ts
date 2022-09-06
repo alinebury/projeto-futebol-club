@@ -11,8 +11,9 @@ export default (
   switch (name) {
     case 'ValidationError': code = 400; break;
     case 'UnauthorizedError': code = 401; break;
+    case 'ConflictError': code = 403; break;
     default:
       break;
   }
-  res.status(code || 500).json({ message });
+  res.status(code).json({ message });
 };
