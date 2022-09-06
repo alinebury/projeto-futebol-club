@@ -2,6 +2,8 @@ import * as Joi from 'joi';
 import Match from '../database/models/Matches';
 import Team from '../database/models/Team';
 import NotFoundError from '../middlewares/NotFoundError';
+import UnauthorizedError from '../middlewares/UnauthoriedError';
+import { NewMatch } from '../interfaces/interfaces';
 
 export default class MatchesService {
   public modelMatch;
@@ -51,7 +53,7 @@ export default class MatchesService {
     await schema.validateAsync(match);
   }
 
-  async addMatch(match: object): Promise<object> {
+  async addMatch(match: NewMatch): Promise<object> {
     const addMatch = { ...match, inProgress: true };
     const create = await this.modelMatch.create(addMatch);
 
@@ -78,4 +80,27 @@ export default class MatchesService {
 
     if (!match) throw new NotFoundError('Match not found');
   }
+
+  async validateTeam(homeTeam: number, awayTeam: number): Promise<void> {
+    if (homeTeam === awayTeam) {
+      throw new UnauthorizedError('It is not possible to create a match with two equal teams');
+    }
+    const team = await this.modelTeam.findAll({
+      where: {
+        id: [homeTeam, awayTeam],
+      },
+      raw: true,
+    });
+
+    if (team.length !== 2) throw new NotFoundError('There is no team with such id!');
+  }
+
+  // async editMatch(body: any, id: any): Promise<any> {
+  //   const match = await this.modelMatch.update(
+  //     { body },
+  //     { where: { id } },
+  //   );
+
+  //   return match;
+  // }
 }

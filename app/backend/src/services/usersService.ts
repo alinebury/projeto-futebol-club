@@ -4,7 +4,7 @@ import * as Bcrypt from 'bcryptjs';
 import * as jwt from 'jsonwebtoken';
 import User from '../database/models/User';
 import UnauthorizedError from '../middlewares/UnauthoriedError';
-import Login from '../interfaces/interfaces';
+import { Login } from '../interfaces/interfaces';
 
 export default class UsersService {
   public model;
@@ -49,8 +49,12 @@ export default class UsersService {
     const token = req.headers.authorization;
     const secret = process.env.JWT_SECRET || 'secret';
     if (!token) throw new UnauthorizedError('Token not found');
-    const decoded = jwt.verify(token, secret);
-    return decoded as Login;
+    try {
+      const decoded = jwt.verify(token, secret);
+      return decoded as Login;
+    } catch (error) {
+      throw new UnauthorizedError('Token must be a valid token');
+    }
   }
 
   async getUser(username: string): Promise<User> {

@@ -23,8 +23,10 @@ export default class MatchesController {
   }
 
   async addMatch(req: Request, res: Response): Promise<void> {
+    const { homeTeam, awayTeam } = req.body;
     await MatchesService.validateBodyMatch(req.body);
     await UsersService.readToken(req);
+    await this.matchesService.validateTeam(homeTeam, awayTeam);
     const match = await this.matchesService.addMatch(req.body);
 
     res.status(HTTP.CREATED).json(match);
@@ -37,4 +39,9 @@ export default class MatchesController {
 
     res.status(HTTP.OK).json({ message: 'Finished' });
   }
+
+  // async editMatch(req: Request, res: Response): Promise<void> {
+  //   const match = await this.matchesService.editMatch(req.body, req.params.id);
+  //   res.status(HTTP.OK).json(match);
+  // }
 }

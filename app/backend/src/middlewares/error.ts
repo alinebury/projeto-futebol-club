@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
+import { StatusCodes as HTTP } from 'http-status-codes';
 
 export default (
   err: Error,
@@ -7,11 +8,12 @@ export default (
   _next: NextFunction,
 ) => {
   const { message, name } = err;
-  let code = 500;
+  let code = HTTP.INTERNAL_SERVER_ERROR;
   switch (name) {
-    case 'ValidationError': code = 400; break;
-    case 'UnauthorizedError': code = 401; break;
-    case 'ConflictError': code = 403; break;
+    case 'ValidationError': code = HTTP.BAD_REQUEST; break;
+    case 'UnauthorizedError': code = HTTP.UNAUTHORIZED; break;
+    case 'ConflictError': code = HTTP.FORBIDDEN; break;
+    case 'NotFoundError': code = HTTP.NOT_FOUND; break;
     default:
       break;
   }
