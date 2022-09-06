@@ -3,7 +3,7 @@ import * as Joi from 'joi';
 import * as Bcrypt from 'bcryptjs';
 import * as jwt from 'jsonwebtoken';
 import User from '../database/models/User';
-import { UnauthorizedError } from '../middlewares/utils';
+import UnauthorizedError from '../middlewares/UnauthoriedError';
 import Login from '../interfaces/interfaces';
 
 export default class UsersService {

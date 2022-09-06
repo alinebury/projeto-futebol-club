@@ -18,6 +18,9 @@ router.get('/teams', (req, res) => teamsController.getAllTeams(req, res));
 router.get('/teams/:id', (req, res) => teamsController.getTeamById(req, res));
 
 // matches
+// router.get('/matches/', (req, res) => matchesController.getByStatus(req, res));
 router.get('/matches', (req, res) => matchesController.getAllMatches(req, res));
+router.post('/matches', (req, res) => matchesController.addMatch(req, res));
+router.patch('/matches/:id/finish', (req, res) => matchesController.editProgress(req, res));
 
 export default router;
