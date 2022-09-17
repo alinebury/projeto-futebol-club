@@ -8,12 +8,12 @@ export default class TeamsService {
   }
 
   async getAllTeams(): Promise<Team[]> {
-    const teams = await this.model.findAll();
+    const teams = await this.model.findAll({ raw: true });
 
     return teams;
   }
 
-  async getTeamById(id: string): Promise<Team> {
+  async getTeamById(id: string | number): Promise<Team> {
     const team = await this.model.findOne({
       where: { id },
     });
