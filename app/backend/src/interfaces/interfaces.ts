@@ -32,3 +32,18 @@ export interface Goal {
   goalsOwn: number;
   goalsBalance: number;
 }
+
+export interface IUser {
+  id: number;
+  username: string;
+  role: string;
+  email: string;
+  password: string;
+}
+
+export interface CreateUserResponse {
+  name: string,
+  email: string,
+  id: number,
+  token: string
+}

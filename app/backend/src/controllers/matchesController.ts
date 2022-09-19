@@ -42,7 +42,7 @@ export default class MatchesController {
 
   async editMatch(req: Request, res: Response): Promise<void> {
     await this.matchesService.editMatch(req.body, req.params.id);
-    const match = await this.matchesService.getMatchById(1);
+    const match = await this.matchesService.getMatchById(req.params.id);
     res.status(HTTP.OK).json(match);
   }
 }
